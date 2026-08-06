@@ -1,6 +1,6 @@
-const JSONBIN_BIN_ID = 6a74bd9c3919920ec4856305 ;
+const JSONBIN_BIN_ID = "6a74bd9c3919920ec4856305" ;
 const JSONBIN_API_KEY = $2a$10$KjFS3JdZ7ww7HpToREFLs.wpfTYIDYa0q2y0fqWWN5kSZ78VN2jF6;
-const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${$2a$10$OSGn45JnpFu/JPh9XOVmEeRkgqvnjxG1UGjrVEhdJ5XqFZIeMS4T2}`;
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;;
 
 import { useState, useEffect } from "react";
 
