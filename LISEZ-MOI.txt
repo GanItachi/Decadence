@@ -1,0 +1,46 @@
+DECADENCE — site du codex de jeu
+==================================
+
+Structure
+---------
+index.html                   → Le Codex (page d'accueil, résumé du monde)
+evolution-des-persos.html    → Pilier I : le corps (Force/Vitesse/Agilité/Endurance)
+systeme-de-pouvoir.html      → Pilier II : l'Anima (natures, Configurations, Foyer, Manifestation)
+rejoindre.html                → Formulaire de candidature interactif
+assets/style.css             → Feuille de style partagée par toutes les pages
+assets/site.js                → Navigation + logique du formulaire
+
+Images
+------
+Les pages référencent des illustrations dans un dossier "images/" à côté des
+fichiers HTML (images/image1.gif à image6.gif). Dépose tes propres visuels
+dans ce dossier avec ces noms, ou modifie les balises <img src="..."> dans
+evolution-des-persos.html et systeme-de-pouvoir.html.
+
+Le formulaire de candidature (rejoindre.html)
+----------------------------------------------
+Le formulaire écrit pour l'instant dans un registre simulé, en mémoire dans
+le navigateur (perdu au rechargement) — assets/site.js, objet MockBackend.
+Toute la logique passe par une interface commune :
+
+    DecadenceAPI.submit(candidature)   → enregistre une candidature
+    DecadenceAPI.list()                → liste les candidatures
+
+Pour brancher un vrai backend (Java/Spring, Node, PHP...), il suffit :
+1. d'exposer une API REST avec deux routes, ex. POST/GET /api/candidatures,
+   suivant le schéma décrit en tête de site.js ;
+2. de remplacer dans site.js la ligne
+       const DecadenceAPI = MockBackend;
+   par
+       const DecadenceAPI = RealBackend;
+   (RealBackend est déjà écrit, il pointe vers /api/candidatures par défaut —
+   adapter `baseUrl` si besoin).
+Rien d'autre à changer : le formulaire, la validation et l'affichage du
+registre utilisent uniquement l'interface DecadenceAPI.
+
+Ouvrir le site
+---------------
+Double-cliquer sur index.html suffit pour naviguer en local. Pour tester le
+formulaire dans des conditions proches de la prod (fetch, etc.), il est
+préférable de servir le dossier via un petit serveur local plutôt que
+d'ouvrir les fichiers en file://.

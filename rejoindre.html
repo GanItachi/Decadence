@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rejoindre — Decadence</title>
+<meta name="description" content="Dépose ta candidature pour rejoindre le RP WhatsApp Decadence.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="rejoindre">
+
+<nav class="sitenav">
+  <div class="navrow">
+    <span class="brand">DE<span>C</span>ADENCE</span>
+    <ul>
+      <li><a href="index.html" data-page="accueil">Le Codex</a></li>
+      <li><a href="evolution-des-persos.html" data-page="evolution">Évolution</a></li>
+      <li><a href="systeme-de-pouvoir.html" data-page="pouvoir">Pouvoir</a></li>
+      <li><a href="rejoindre.html" data-page="rejoindre">Rejoindre</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Entrer dans le jeu</div>
+    <h1 class="title">Rejoindre</h1>
+    <div class="subtitle">Scelle ta candidature, on te répond sur WhatsApp</div>
+  </header>
+
+  <div class="seal" style="margin-bottom: 30px;" aria-hidden="true"></div>
+
+  <p class="body-text" style="text-align:center; max-width:52ch; margin:0 auto 50px; color:var(--dim);">
+    Pas besoin d'une fiche complète pour candidater — un concept clair et une direction d'Anima suffisent.
+    Le reste se construit avec le MJ une fois la candidature validée.
+  </p>
+
+  <form id="candidature-form" novalidate>
+
+    <div class="field">
+      <label for="pseudo">Pseudo <span class="req">*</span></label>
+      <input type="text" id="pseudo" name="pseudo" placeholder="Comment on t'appelle en jeu" required>
+    </div>
+
+    <div class="field">
+      <label for="whatsapp">Contact WhatsApp <span class="req">*</span></label>
+      <input type="text" id="whatsapp" name="whatsapp" placeholder="Numéro ou pseudo sur le groupe" required>
+      <div class="field-hint">Sert uniquement à te recontacter pour la suite — jamais partagé.</div>
+    </div>
+
+    <div class="field">
+      <label for="personnage">Concept du personnage <span class="req">*</span></label>
+      <textarea id="personnage" name="personnage" placeholder="Qui il est, ce qui le pousse à se battre, un trait qui le rend reconnaissable…" required></textarea>
+    </div>
+
+    <div class="field">
+      <label>Nature d'Anima envisagée <span class="req">*</span></label>
+      <div class="nature-toggle" role="radiogroup" aria-label="Nature d'Anima">
+        <input type="radio" id="nature-profonde" name="nature" value="profonde">
+        <label for="nature-profonde">Profonde</label>
+
+        <input type="radio" id="nature-libre" name="nature" value="libre">
+        <label for="nature-libre">Libre</label>
+
+        <input type="radio" id="nature-mixte" name="nature" value="mixte">
+        <label for="nature-mixte">Mixte / indécis·e</label>
+      </div>
+      <div class="field-hint">Voir <a href="systeme-de-pouvoir.html#">Système de Pouvoir</a> si le choix n'est pas encore clair.</div>
+    </div>
+
+    <div class="field">
+      <label for="configuration">Configuration pressentie</label>
+      <select id="configuration" name="configuration">
+        <option value="">— À définir avec le MJ —</option>
+        <option value="pur-profond">Pur Profond (100 / 0)</option>
+        <option value="profond-dominant">Profond dominant (80 / 20)</option>
+        <option value="equilibre">Équilibré (50 / 50)</option>
+        <option value="libre-dominant">Libre dominant (20 / 80)</option>
+        <option value="pur-libre">Pur Libre (0 / 100)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="message">Message pour le MJ</label>
+      <textarea id="message" name="message" placeholder="Questions, contraintes de rythme, tout ce qui aide à te placer dans l'histoire (facultatif)"></textarea>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit" class="seal-btn">Sceller la candidature</button>
+      <span class="form-status" id="form-status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+
+  <div class="confirm-card" id="confirm-card" role="status" aria-live="polite">
+    <div class="seal" style="margin-bottom:14px;" aria-hidden="true"></div>
+    <h3>Candidature scellée</h3>
+    <p>Elle est enregistrée — le MJ te recontacte sur WhatsApp pour la suite.</p>
+    <span class="confirm-id" id="confirm-id"></span>
+  </div>
+
+  <div class="registry">
+    <h4>Candidatures récentes</h4>
+    <div id="registry-list">
+      <p class="registry-empty">Chargement…</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:50px;">
+    <b>Note technique :</b> ce formulaire écrit pour l'instant dans un registre simulé en mémoire
+    (perdu au rechargement), le temps qu'un vrai service existe. L'ensemble de la logique passe déjà
+    par une interface <code>DecadenceAPI.submit() / .list()</code> — brancher un backend (Java/Spring
+    ou autre) revient à remplacer cette seule implémentation, sans toucher au formulaire.
+  </div>
+
+  <footer class="sitefoot">
+    Decadence — codex de référence, sujet à ajustement en jeu.
+    <div class="foot-links">
+      <a href="index.html">Le Codex</a>·
+      <a href="evolution-des-persos.html">Évolution</a>·
+      <a href="systeme-de-pouvoir.html">Pouvoir</a>·
+      <a href="rejoindre.html">Rejoindre</a>
+    </div>
+  </footer>
+
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
