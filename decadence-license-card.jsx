@@ -1,3 +1,7 @@
+const JSONBIN_BIN_ID = 6a74bd9c3919920ec4856305 ;
+const JSONBIN_API_KEY = $2a$10$KjFS3JdZ7ww7HpToREFLs.wpfTYIDYa0q2y0fqWWN5kSZ78VN2jF6;
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${$2a$10$OSGn45JnpFu/JPh9XOVmEeRkgqvnjxG1UGjrVEhdJ5XqFZIeMS4T2}`;
+
 import { useState, useEffect } from "react";
 
 const ADMINS = ["KIRITO", "NOVA", "GREY", "ITACHI"];
@@ -653,22 +657,39 @@ export default function App() {
   const isAdmin = ADMINS.includes(adminName.toUpperCase());
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await window.storage.get("decadence-personnages", true);
-        if (res) setPersonnages(JSON.parse(res.value));
-      } catch (_) {}
-      setLoading(false);
-    };
-    load();
-  }, []);
-
-  const save = async (list) => {
+  const load = async () => {
     try {
-      await window.storage.set("decadence-personnages", JSON.stringify(list), true);
-    } catch (_) {}
-    setPersonnages(list);
+      const res = await fetch(`${JSONBIN_URL}/latest`, {
+        headers: { "X-Master-Key": JSONBIN_API_KEY }
+      });
+      const data = await res.json();
+      setPersonnages(data.record || []);
+    } catch (e) {
+      console.error("Erreur de chargement :", e);
+    }
+    setLoading(false);
   };
+  load();
+}, []);
+
+const save = async (list) => {
+  setPersonnages(list); // mise à jour immédiate de l'affichage
+  try {
+    const res = await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": JSONBIN_API_KEY,
+        "X-Bin-Versioning": "false"
+      },
+      body: JSON.stringify(list)
+    });
+    if (!res.ok) throw new Error(res.statusText);
+  } catch (e) {
+    console.error("Erreur de sauvegarde :", e);
+    alert("Sauvegarde échouée : " + e.message);
+  }
+};
 
   const handleLogin = () => {
     if (ADMINS.includes(adminInput.toUpperCase())) {
