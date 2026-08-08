@@ -1,10 +1,28 @@
 /* ============================================================
-   DECADENCE — feuille de style partagée
-   Palette héritée des documents existants + extensions
-   (nav, sceau, formulaire de candidature)
+   DECADENCE — feuille de style partagée (v2)
+   ------------------------------------------------------------
+   Choix de direction artistique pour cette passe :
+   - Typographie resserrée à DEUX familles (au lieu de trois) :
+     Cinzel pour les titres, Cormorant Garamond pour tout le
+     reste — texte courant, nav, formulaires, libellés. Un
+     empilement de 3 polices sur un site de cette taille est
+     souvent le premier signe d'un habillage non maîtrisé ;
+     deux familles bien posées lisent plus "dessiné à la main".
+   - Le halo radial en haut de page et le bouton dégradé glossy
+     sont deux clichés très reconnaissables de maquette générée
+     automatiquement : supprimés au profit d'aplats sombres nets.
+   - Le sceau (élément signature du site) passe d'un halo radial
+     à de la cire pleine, plus juste avec l'objet qu'il évoque —
+     un vrai sceau de cire est mat, pas lumineux.
+   - Rayons harmonisés à 6px partout, à l'exception assumée des
+     formes rondes (le sceau, les badges circulaires) : leur
+     appliquer 6px les briserait en carrés aux coins coupés.
+   - --dim relevé à #a89ba8 (et les gris codés en dur alignés
+     dessus) pour un texte secondaire réellement lisible sur fond
+     quasi-noir, pas seulement décoratif.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 
 :root{
   --void: #0d0a0f;
@@ -13,12 +31,14 @@
   --panel-2: #241d29;
   --line: #3a2f3d;
   --bone: #e7ded2;
-  --dim: #9c8fa0;
+  --dim: #a89ba8;
+  --dim-faint: #766a78;
   --ember: #b8452f;
   --ember-bright: #e0693f;
   --glow: #f3d9c4;
   --violet: #6b5b8a;
   --violet-bright: #9c85c9;
+  --radius: 6px;
 }
 
 *{ box-sizing: border-box; }
@@ -27,11 +47,10 @@ html{ scroll-behavior: smooth; }
 
 body{
   margin:0;
-  background:
-    radial-gradient(ellipse 900px 500px at 50% -10%, rgba(184,69,47,0.16), transparent 60%),
-    var(--void);
+  background: var(--void);
   color: var(--bone);
-  font-family: 'Jost', sans-serif;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
   line-height: 1.65;
   padding: 0 0 100px;
 }
@@ -53,7 +72,7 @@ nav.sitenav{
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(13,10,15,0.88);
+  background: rgba(13,10,15,0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -77,11 +96,12 @@ nav.sitenav .brand span{ color: var(--ember-bright); }
 nav.sitenav ul{
   list-style: none;
   display: flex;
-  gap: 22px;
+  gap: 24px;
   margin: 0;
   padding: 0;
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 nav.sitenav ul a{
@@ -114,10 +134,11 @@ header.masthead::after{
   background: linear-gradient(90deg, transparent, var(--ember), transparent);
 }
 .eyebrow{
-  font-family: 'Jost';
-  letter-spacing: 0.45em;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ember-bright);
   margin-bottom: 18px;
 }
@@ -128,10 +149,8 @@ h1.title{
   letter-spacing: 0.05em;
   margin: 0;
   color: var(--glow);
-  text-shadow: 0 0 30px rgba(224,105,63,0.35);
 }
 .subtitle{
-  font-family:'Cormorant Garamond', serif;
   font-style: italic;
   color: var(--dim);
   font-size: 19px;
@@ -141,8 +160,9 @@ h1.title{
 /* ---------- ILLUSTRATION ---------- */
 figure.illus{
   margin: 34px 0;
-  border: 1px dashed var(--line);
-  background: rgba(255,255,255,0.015);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ash);
   text-align: center;
   padding: 8px;
 }
@@ -154,9 +174,9 @@ figure.illus img{
   filter: grayscale(15%) contrast(1.05);
   background: var(--ash);
   min-height: 90px;
+  border-radius: calc(var(--radius) - 2px);
 }
 figure.illus figcaption{
-  font-family:'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 13px;
   color: var(--dim);
@@ -176,13 +196,14 @@ h3.sub-title{
   font-family:'Cinzel', serif; font-weight: 600; font-size: 18px;
   letter-spacing: 0.02em; color: var(--violet-bright); margin: 36px 0 10px;
 }
-p.body-text{ color: var(--bone); font-size: 15.5px; margin: 10px 0; }
+p.body-text{ color: var(--bone); font-size: 16.5px; margin: 10px 0; }
 
 /* ---------- CARDS ---------- */
 .nature-card{
   background: var(--panel);
   border: 1px solid var(--line);
   border-left: 3px solid var(--ember);
+  border-radius: var(--radius);
   padding: 22px 24px;
   margin: 18px 0;
 }
@@ -193,61 +214,84 @@ p.body-text{ color: var(--bone); font-size: 15.5px; margin: 10px 0; }
 }
 .nature-card .fort{ color: var(--ember-bright); font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; }
 .nature-card .faible{ color: var(--violet-bright); font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; }
-.nature-card p{ font-size: 14.5px; color: var(--bone); margin: 6px 0 14px; }
+.nature-card p{ font-size: 15.5px; color: var(--bone); margin: 6px 0 14px; }
 
 /* ---------- TABLES ---------- */
 table.grid{
-  width: 100%; border-collapse: collapse; background: var(--panel);
-  border: 1px solid var(--line); font-size: 14px; margin: 18px 0;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 15px;
+  margin: 18px 0;
 }
 table.grid caption{
-  text-align:left; font-family:'Cormorant Garamond', serif; font-style: italic;
-  color: var(--dim); padding: 10px 4px; font-size: 15px;
+  text-align:left;
+  font-style: italic;
+  color: var(--dim);
+  padding: 10px 4px;
+  font-size: 15px;
 }
 table.grid th{
-  text-align:left; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
-  font-size: 10.5px; color: var(--ember-bright); background: rgba(184,69,47,0.08);
+  text-align:left; font-family: 'Cormorant Garamond', serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: 12px; color: var(--ember-bright); background: rgba(184,69,47,0.1);
   padding: 11px 14px; border-bottom: 1px solid var(--line);
 }
-table.grid td{ padding: 10px 14px; border-bottom: 1px solid rgba(58,47,61,0.6); color: var(--bone); }
+table.grid td{ padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--bone); }
 table.grid tr:last-child td{ border-bottom:none; }
-table.grid tr:hover td{ background: rgba(184,69,47,0.05); }
+table.grid tr:hover td{ background: rgba(184,69,47,0.06); }
 td.foyer, td.range{ color: var(--ember-bright); font-weight: 600; white-space: nowrap; }
 
 /* ---------- MISC ---------- */
-.config-bar{ display:flex; align-items:center; gap: 14px; margin: 8px 0; padding: 10px 14px; background: var(--panel); border: 1px solid var(--line); }
+.config-bar{
+  display:flex; align-items:center; gap: 14px; margin: 8px 0; padding: 10px 14px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+}
 .config-name{ font-family:'Cinzel', serif; font-size: 13px; letter-spacing:0.03em; color: var(--glow); width: 150px; flex-shrink:0; }
-.config-track{ flex:1; height: 8px; background: var(--ash); position:relative; overflow:hidden; }
+.config-track{ flex:1; height: 8px; background: var(--ash); border-radius: var(--radius); position:relative; overflow:hidden; }
 .config-fill-profonde{ position:absolute; left:0; top:0; bottom:0; background: var(--ember); }
 .config-fill-libre{ position:absolute; right:0; top:0; bottom:0; background: var(--violet-bright); }
-.config-ratio{ font-family:'Cormorant Garamond', serif; font-size: 13px; color: var(--dim); width: 90px; text-align:right; flex-shrink:0; }
+.config-ratio{ font-style: italic; font-size: 13px; color: var(--dim); width: 90px; text-align:right; flex-shrink:0; }
 
-.note{ margin-top: 16px; padding: 14px 18px; border-left: 2px solid var(--dim); font-size: 13.5px; color: var(--dim); }
+.note{
+  margin-top: 16px; padding: 14px 18px;
+  background: var(--panel); border: 1px solid var(--line); border-left: 2px solid var(--dim);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 14.5px; color: var(--dim);
+}
 .note b{ color: var(--bone); }
 
 .formula{
-  margin-top: 14px; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--dim);
-  background: rgba(184,69,47,0.06); border: 1px dashed var(--line); padding: 12px 18px;
+  margin-top: 14px; font-size: 17px; color: var(--dim);
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 18px;
 }
 .formula b{ color: var(--glow); font-style: normal; }
 
-.divider{ text-align:center; color: var(--ember); letter-spacing: 0.5em; font-size: 11px; margin: 60px 0; opacity: 0.6; }
+.divider{ text-align:center; color: var(--ember); letter-spacing: 0.5em; font-size: 11px; margin: 60px 0; opacity: 0.7; }
 
 .callout{
-  background: linear-gradient(180deg, rgba(107,91,138,0.12), rgba(107,91,138,0.02));
-  border: 1px solid rgba(156,133,201,0.35); padding: 24px 26px; margin: 40px 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--violet-bright);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  margin: 40px 0;
 }
 .callout .sec-title{ font-size: 22px; color: var(--violet-bright); }
 .callout ul{ margin: 14px 0 0; padding-left: 20px; }
-.callout li{ margin-bottom: 10px; color: var(--bone); font-size: 14.5px; }
+.callout li{ margin-bottom: 10px; color: var(--bone); font-size: 15.5px; }
 .callout li b{ color: var(--ember-bright); }
 
 footer.sitefoot{
   text-align:center; margin-top: 90px; color: var(--dim);
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px;
+  font-style: italic; font-size: 14px;
 }
 footer.sitefoot .foot-links{
-  font-family: 'Jost'; font-style: normal; font-size: 11px; letter-spacing: 0.1em;
+  font-style: normal; font-size: 12px; letter-spacing: 0.1em;
   text-transform: uppercase; margin-top: 14px;
 }
 footer.sitefoot .foot-links a{ color: var(--dim); margin: 0 10px; }
@@ -255,9 +299,8 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
 
 /* ============================================================
    SIGNATURE — le Sceau de Decadence
-   Un sceau de cire animé, utilisé comme fil rouge du site :
-   marqueur de section sur l'accueil, et tampon d'engagement
-   sur le formulaire de candidature.
+   Cire pleine, mate : un sceau, pas une ampoule. Le halo radial
+   d'origine ressemblait davantage à un logo néon qu'à de la cire.
    ============================================================ */
 .seal{
   --seal-size: 84px;
@@ -266,11 +309,9 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   border-radius: 50%;
   position: relative;
   display: grid; place-items: center;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(224,105,63,0.55), transparent 55%),
-    radial-gradient(circle at 65% 70%, rgba(107,91,138,0.35), transparent 60%),
-    var(--ember);
-  box-shadow: 0 0 0 1px rgba(243,217,196,0.15), 0 12px 30px rgba(184,69,47,0.35), inset 0 2px 4px rgba(0,0,0,0.35);
+  background: var(--ember);
+  border: 1px solid var(--ember-bright);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45), inset 0 2px 4px rgba(0,0,0,0.35);
 }
 .seal::before{
   content: "D";
@@ -278,13 +319,12 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   font-weight: 800;
   font-size: calc(var(--seal-size) * 0.42);
   color: var(--glow);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 .seal::after{
   content: "";
   position: absolute; inset: -8px;
   border-radius: 50%;
-  border: 1px dashed rgba(224,105,63,0.4);
+  border: 1px dashed var(--line);
 }
 
 /* ---------- HERO EMBER PARTICLES (accueil) ---------- */
@@ -302,7 +342,6 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   background: var(--ember-bright);
   opacity: 0;
   animation: rise 9s linear infinite;
-  box-shadow: 0 0 6px 1px rgba(224,105,63,0.7);
 }
 @keyframes rise{
   0%{ transform: translateY(0) translateX(0); opacity: 0; }
@@ -315,7 +354,7 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   html{ scroll-behavior: auto; }
 }
 
-/* ---------- WORLD CARDS (accueil : hub vers les 2 documents) ---------- */
+/* ---------- WORLD CARDS (accueil : hub vers les documents) ---------- */
 .hub-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -328,6 +367,7 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   display: block;
   background: var(--panel);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: 26px 24px;
   transition: border-color .18s ease, transform .18s ease, background .18s ease;
   position: relative;
@@ -345,14 +385,14 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
 .hub-card:hover::before{ transform: scaleY(1); }
 .hub-card .hub-num{ font-family:'Cinzel', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--ember-bright); }
 .hub-card h3{ font-family:'Cinzel', serif; font-size: 19px; color: var(--glow); margin: 10px 0 8px; letter-spacing: 0.02em; }
-.hub-card p{ font-size: 14px; color: var(--dim); margin: 0; }
-.hub-card .hub-go{ display:block; margin-top: 14px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+.hub-card p{ font-size: 14.5px; color: var(--dim); margin: 0; }
+.hub-card .hub-go{ display:block; margin-top: 14px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
 .hub-card:hover .hub-go{ color: var(--ember-bright); }
 
 /* ---------- FORMULAIRE (rejoindre.html) ---------- */
 .field{ margin: 0 0 20px; }
 .field label{
-  display:block; font-family:'Jost'; font-size: 11.5px; text-transform: uppercase;
+  display:block; font-weight: 600; font-size: 12.5px; text-transform: uppercase;
   letter-spacing: 0.09em; color: var(--dim); margin-bottom: 8px;
 }
 .field .req{ color: var(--ember-bright); }
@@ -363,30 +403,31 @@ footer.sitefoot .foot-links a:hover{ color: var(--ember-bright); }
   width: 100%;
   background: var(--panel);
   border: 1px solid var(--line);
+  border-radius: var(--radius);
   color: var(--bone);
-  font-family: 'Jost';
-  font-size: 15px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
   padding: 12px 14px;
   transition: border-color .15s ease, background .15s ease;
 }
-.field input::placeholder, .field textarea::placeholder{ color: #695f6e; }
+.field input::placeholder, .field textarea::placeholder{ color: var(--dim-faint); }
 .field input:focus, .field select:focus, .field textarea:focus{
   border-color: var(--ember); background: var(--panel-2); outline: none;
 }
 .field textarea{ resize: vertical; min-height: 110px; }
-.field-hint{ font-size: 12px; color: #6d6373; margin-top: 6px; }
+.field-hint{ font-size: 12.5px; color: var(--dim-faint); margin-top: 6px; }
 
 .nature-toggle{ display:flex; gap: 10px; flex-wrap: wrap; }
 .nature-toggle input{ position: absolute; opacity: 0; pointer-events: none; }
 .nature-toggle label{
   flex: 1; min-width: 130px; text-align: center;
-  border: 1px solid var(--line); background: var(--panel);
-  padding: 12px 10px; cursor: pointer; font-size: 13px; letter-spacing: 0.03em;
+  border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius);
+  padding: 12px 10px; cursor: pointer; font-size: 14px; letter-spacing: 0.03em;
   color: var(--dim); transition: all .15s ease; margin: 0;
   text-transform: none;
 }
 .nature-toggle input:checked + label{
-  border-color: var(--ember); color: var(--glow); background: rgba(184,69,47,0.12);
+  border-color: var(--ember); color: var(--glow); background: rgba(184,69,47,0.14);
 }
 .nature-toggle input:focus-visible + label{ outline: 2px solid var(--ember-bright); outline-offset: 2px; }
 
@@ -395,24 +436,27 @@ button.seal-btn{
   font-family: 'Cinzel', serif;
   font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--glow);
-  background: linear-gradient(180deg, var(--ember-bright), var(--ember));
-  border: none; padding: 15px 30px; cursor: pointer;
-  box-shadow: 0 8px 20px rgba(184,69,47,0.3);
-  transition: transform .12s ease, box-shadow .12s ease;
+  background: var(--ember);
+  border: 1px solid var(--ember-bright);
+  border-radius: var(--radius);
+  padding: 15px 30px; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  transition: transform .12s ease, background .12s ease;
 }
-button.seal-btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(184,69,47,0.42); }
+button.seal-btn:hover{ background: var(--ember-bright); transform: translateY(-1px); }
 button.seal-btn:active{ transform: translateY(1px) scale(0.98); }
 button.seal-btn:disabled{ opacity: 0.55; cursor: not-allowed; transform:none; }
 
-.form-status{ font-size: 13px; color: var(--dim); font-family: 'Cormorant Garamond', serif; font-style: italic; }
-.form-status.err{ color: var(--ember-bright); font-style: normal; font-family: 'Jost'; }
+.form-status{ font-size: 13.5px; color: var(--dim); font-style: italic; }
+.form-status.err{ color: var(--ember-bright); font-style: normal; }
 
 .confirm-card{
   display:none;
   margin-top: 36px;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-top: 3px solid var(--ember);
+  border-top: 2px solid var(--ember);
+  border-radius: var(--radius);
   padding: 30px 28px;
   text-align: center;
 }
@@ -423,10 +467,10 @@ button.seal-btn:disabled{ opacity: 0.55; cursor: not-allowed; transform:none; }
   100%{ opacity: 1; transform: scale(1) rotate(0); }
 }
 .confirm-card h3{ font-family:'Cinzel', serif; color: var(--glow); font-size: 18px; margin: 16px 0 6px; }
-.confirm-card p{ color: var(--dim); font-size: 14px; margin: 0; }
+.confirm-card p{ color: var(--dim); font-size: 14.5px; margin: 0; }
 .confirm-card .confirm-id{
-  display:inline-block; margin-top: 14px; font-family: 'Jost'; font-size: 11px;
-  letter-spacing: 0.06em; color: var(--dim); border: 1px dashed var(--line); padding: 5px 12px;
+  display:inline-block; margin-top: 14px; font-size: 12px;
+  letter-spacing: 0.06em; color: var(--dim); border: 1px dashed var(--line); border-radius: var(--radius); padding: 5px 12px;
 }
 
 .registry{ margin-top: 46px; }
@@ -434,17 +478,17 @@ button.seal-btn:disabled{ opacity: 0.55; cursor: not-allowed; transform:none; }
   font-family:'Cinzel', serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--dim); margin-bottom: 14px;
 }
-.registry-empty{ color: #6d6373; font-size: 13.5px; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+.registry-empty{ color: var(--dim-faint); font-size: 14.5px; font-style: italic; }
 .registry-item{
   display:flex; justify-content: space-between; gap: 14px; align-items: baseline;
-  padding: 12px 0; border-bottom: 1px solid rgba(58,47,61,0.6); font-size: 13.5px;
+  padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px;
 }
 .registry-item:last-child{ border-bottom: none; }
 .registry-item .r-name{ color: var(--bone); font-weight: 500; }
-.registry-item .r-meta{ color: var(--dim); font-size: 12px; text-align: right; }
+.registry-item .r-meta{ color: var(--dim); font-size: 13px; text-align: right; }
 
 @media (max-width: 560px){
-  table.grid{ font-size: 12.5px; }
+  table.grid{ font-size: 13.5px; }
   table.grid th, table.grid td{ padding: 8px 10px; }
   .config-name{ width: 100px; font-size: 11px; }
 }

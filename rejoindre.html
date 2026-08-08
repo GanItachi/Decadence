@@ -16,6 +16,7 @@
       <li><a href="index.html" data-page="accueil">Le Codex</a></li>
       <li><a href="evolution-des-persos.html" data-page="evolution">Évolution</a></li>
       <li><a href="systeme-de-pouvoir.html" data-page="pouvoir">Pouvoir</a></li>
+      <li><a href="fiches.html" data-page="fiches">Fiches</a></li>
       <li><a href="rejoindre.html" data-page="rejoindre">Rejoindre</a></li>
     </ul>
   </div>
@@ -107,10 +108,10 @@
   </div>
 
   <div class="note" style="margin-top:50px;">
-    <b>Note technique :</b> ce formulaire écrit pour l'instant dans un registre simulé en mémoire
-    (perdu au rechargement), le temps qu'un vrai service existe. L'ensemble de la logique passe déjà
-    par une interface <code>DecadenceAPI.submit() / .list()</code> — brancher un backend (Java/Spring
-    ou autre) revient à remplacer cette seule implémentation, sans toucher au formulaire.
+    <b>Note technique :</b> les candidatures sont enregistrées dans Vercel KV via
+    <code>/api/candidatures</code> — partagées entre tous les visiteurs, plus seulement
+    dans ce navigateur. Toute la logique passe par une interface
+    <code>DecadenceAPI.submit() / .list()</code> — voir LISEZ-MOI.txt pour la configuration.
   </div>
 
   <footer class="sitefoot">
@@ -119,6 +120,7 @@
       <a href="index.html">Le Codex</a>·
       <a href="evolution-des-persos.html">Évolution</a>·
       <a href="systeme-de-pouvoir.html">Pouvoir</a>·
+      <a href="fiches.html">Fiches</a>·
       <a href="rejoindre.html">Rejoindre</a>
     </div>
   </footer>

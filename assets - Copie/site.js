@@ -85,10 +85,8 @@
     return new Promise((resolve) => setTimeout(resolve, ms || 450));
   }
 
-  // Bascule unique : /api/candidatures existe désormais (Vercel KV) —
-  // les candidatures sont réellement enregistrées et partagées entre
-  // tous les visiteurs, plus seulement en mémoire dans le navigateur.
-  const DecadenceAPI = RealBackend;
+  // Bascule unique : mettre à `RealBackend` une fois l'API en place.
+  const DecadenceAPI = MockBackend;
   window.DecadenceAPI = DecadenceAPI; // exposé pour debug / extension
 
   /* ------------------------------------------------------------
