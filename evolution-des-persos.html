@@ -6,6 +6,10 @@
     <title>Évolution des Persos — Decadence</title>
     <meta name="description" content="Decadence — Force, Vitesse, Agilité, Endurance : ce que le corps peut endurer, indépendamment de l'Anima.">
     <link rel="stylesheet" href="assets/style.css">
+    <style>
+      /* Ajustements propres à cette page (largeur légèrement plus étroite, table caption) */
+      .wrap{ max-width: 760px; }
+    </style>
   </head>
   <body data-page="evolution">
 
@@ -30,9 +34,9 @@
         </div>
       </header>
 
-      <p class="body-text lede">
+      <p class="body-text" style="font-family:'Cormorant Garamond', serif; font-size:20px; border-left:2px solid var(--ember); padding-left:20px; margin:10px 0 50px;">
         L'évolution physique d'un personnage se règle avec des
-        <b class="term-ember">Points de Compétence (PC)</b>, répartis librement entre quatre
+        <b style="color:var(--ember-bright); font-weight:600;">Points de Compétence (PC)</b>, répartis librement entre quatre
         affinités : Force, Vitesse, Agilité et Endurance. Chaque tranche de
         points débloque un palier — pas de calcul complexe, juste lire la ligne
         qui correspond au total investi.
@@ -40,7 +44,7 @@
 
       <figure class="illus">
         <img src="images/image.gif" alt="Illustration — évolution physique du personnage">
-        <figcaption>Emplacement illustration — la progression du corps</figcaption>
+        <figcaption></figcaption>
       </figure>
 
       <section class="block">
@@ -266,7 +270,10 @@
           VIE.
         </p>
 
-        <div class="formula formula-solo">
+        <div
+          class="formula"
+          style="margin-top: 0; font-size: 19px; text-align: center"
+        >
           1 point d'Endurance = <b>+5 VIE max</b>
         </div>
 
@@ -283,7 +290,7 @@
         <div class="sec-head">
           <h2 class="sec-title">Ce qui n'a plus besoin d'exister</h2>
         </div>
-        <p class="body-text mb-0">
+        <p class="body-text" style="margin-bottom: 0">
           Deux volets de l'ancien système sont retirés — non pas oubliés, mais
           absorbés ailleurs :
         </p>
@@ -297,7 +304,7 @@
             dans les <b>stades du Foyer</b> (Noir → Blanc → Origine) et la règle
             de gâchis de l'Anima. La détection à distance qu'il décrivait
             devient un bonus passif lié au Foyer : <br /><br />
-            <span class="aside-note">
+            <span style="color: var(--dim); font-style: italic">
               Noir/Sombre → 10 m, identification en 2 pavés &nbsp;·&nbsp;
               Brûlant/Ardent → 25 m, en 1 pavé &nbsp;·&nbsp; Solaire+ → 50 m,
               immédiate &nbsp;·&nbsp; Gris+ → détection possible même masquée.

@@ -1,235 +1,148 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Decadence — Le Codex</title>
-    <meta
-      name="description"
-      content="Decadence — RP WhatsApp. Le codex : comment fonctionne le monde, l'Anima, le Foyer et l'évolution des personnages."
-    />
-    <link rel="stylesheet" href="assets/style.css" />
-    <!-- Dans le <head> de votre HTML -->
-    <script
-      src="https://unpkg.com/react@18/umd/react.production.min.js"
-      crossorigin
-    ></script>
-    <script
-      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-      crossorigin
-    ></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  </head>
-  <body data-page="accueil">
-    <nav class="sitenav">
-      <div class="navrow">
-        <span class="brand">DE<span>C</span>ADENCE</span>
-        <ul>
-          <li><a href="index.html" data-page="accueil">Le Codex</a></li>
-          <li>
-            <a href="evolution-des-persos.html" data-page="evolution"
-              >Évolution</a
-            >
-          </li>
-          <li>
-            <a href="systeme-de-pouvoir.html" data-page="pouvoir">Pouvoir</a>
-          </li>
-          <li><a href="fiches.html" data-page="fiches">Fiches</a></li>
-          <li><a href="rejoindre.html" data-page="rejoindre">Rejoindre</a></li>
-        </ul>
-      </div>
-    </nav>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decadence — Le Codex</title>
+<meta name="description" content="Decadence — RP WhatsApp. Le codex : comment fonctionne le monde, l'Anima, le Foyer et l'évolution des personnages.">
+<link rel="stylesheet" href="assets/style.css">
+<!-- Dans le <head> de votre HTML -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+</head>
+<body data-page="accueil">
 
-    <div class="wrap">
-      <header class="masthead" style="position: relative; overflow: hidden">
-        <div class="ember-field" aria-hidden="true"></div>
-        <div style="position: relative; z-index: 1">
-          <div class="eyebrow">RP WhatsApp — Codex de jeu</div>
-          <h1 class="title">Decadence</h1>
-          <div class="subtitle">
-            Un monde où la chair s'use et l'Anima s'affûte
-          </div>
-        </div>
-      </header>
+<nav class="sitenav">
+  <div class="navrow">
+    <span class="brand">DE<span>C</span>ADENCE</span>
+    <ul>
+      <li><a href="index.html" data-page="accueil">Le Codex</a></li>
+      <li><a href="evolution-des-persos.html" data-page="evolution">Évolution</a></li>
+      <li><a href="systeme-de-pouvoir.html" data-page="pouvoir">Pouvoir</a></li>
+      <li><a href="rejoindre.html" data-page="rejoindre">Rejoindre</a></li>
+    </ul>
+  </div>
+</nav>
 
-      <p
-        class="body-text"
-        style="
-          font-family: &quot;Cormorant Garamond&quot;, serif;
-          font-size: 20px;
-          border-left: 2px solid var(--ember);
-          padding-left: 20px;
-          margin: 10px 0 50px;
-        "
-      >
-        Ce codex résume comment
-        <b style="color: var(--ember-bright); font-weight: 600">Decadence</b>
-        fonctionne : ce que le corps encaisse, ce que l'Anima permet, et comment
-        les deux se rencontrent pour donner naissance aux techniques d'un
-        personnage. Il ne remplace pas les documents détaillés — il en est la
-        carte.
-      </p>
+<div class="wrap">
 
-      <!-- ============ COMMENT LE MONDE FONCTIONNE ============ -->
-      <section class="block">
-        <div class="sec-head">
-          <span class="sec-num">I.</span>
-          <h2 class="sec-title">Deux forces, un personnage</h2>
-        </div>
-        <p class="body-text">
-          Tout personnage de Decadence se construit autour de deux axes
-          indépendants, qui se répondent sans jamais se confondre :
-        </p>
-        <ul style="padding-left: 20px; color: var(--bone); font-size: 15.5px">
-          <li style="margin-bottom: 10px">
-            <b style="color: var(--glow)">Le corps</b> — ce qu'il endure, sa
-            force brute, sa vitesse, sa précision. Réglé par les
-            <b style="color: var(--ember-bright)">Points de Compétence</b>,
-            indépendamment de toute magie.
-          </li>
-          <li style="margin-bottom: 10px">
-            <b style="color: var(--glow)">L'Anima</b> — l'énergie propre au
-            personnage, sa nature (Profonde ou Libre), et la maîtrise qu'il en a
-            via son <b style="color: var(--violet-bright)">Foyer</b>.
-          </li>
-        </ul>
-        <div class="note">
-          <b>Pourquoi séparer les deux ?</b> Un personnage à l'Anima faible mais
-          au corps aguerri reste dangereux au corps à corps ; à l'inverse, un
-          Foyer avancé sans entraînement physique aura une portée immense mais
-          peu de résistance directe. Aucun des deux axes ne domine l'autre par
-          défaut.
-        </div>
-      </section>
-
-      <div class="divider">◆ ◆ ◆</div>
-
-      <!-- ============ HUB VERS LES DEUX DOCUMENTS ============ -->
-      <section class="block">
-        <div class="sec-head">
-          <span class="sec-num">II.</span>
-          <h2 class="sec-title">Les deux piliers</h2>
-        </div>
-        <p class="body-text">
-          Chaque pilier a son propre document de référence, détaillé palier par
-          palier.
-        </p>
-
-        <div class="hub-grid">
-          <a class="hub-card" href="evolution-des-persos.html">
-            <span class="hub-num">Pilier I</span>
-            <h3>Évolution des Persos</h3>
-            <p>
-              Force, Vitesse, Agilité, Endurance — ce que le corps peut endurer,
-              indépendamment de l'Anima.
-            </p>
-            <span class="hub-go">Consulter les paliers →</span>
-          </a>
-          <a class="hub-card" href="systeme-de-pouvoir.html">
-            <span class="hub-num">Pilier II</span>
-            <h3>Système de Pouvoir</h3>
-            <p>
-              Anima Profonde et Libre, les 5 Configurations, le Foyer, et la
-              Manifestation ultime.
-            </p>
-            <span class="hub-go">Consulter le système →</span>
-          </a>
-        </div>
-      </section>
-
-      <div class="divider">◆ ◆ ◆</div>
-
-      <!-- ============ LE FOYER EN UN COUP D'OEIL ============ -->
-      <section class="block">
-        <div class="sec-head">
-          <span class="sec-num">III.</span>
-          <h2 class="sec-title">Le Foyer, en un coup d'œil</h2>
-        </div>
-        <p class="body-text">
-          Le Foyer est le stade d'éveil de l'Anima. Il fait progresser en bloc
-          la portée de Résonance, la taille imprégnable et la finesse du
-          Sculptage — pas besoin d'acheter ces trois compétences séparément.
-        </p>
-
-        <table class="grid">
-          <caption>
-            Résumé — voir le détail complet dans Système de Pouvoir
-          </caption>
-          <thead>
-            <tr>
-              <th>Foyer</th>
-              <th>Portée (Résonance)</th>
-              <th>Formes (Sculptage)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="foyer">Latent</td>
-              <td>5 m</td>
-              <td>Aléatoire, incontrôlée</td>
-            </tr>
-            <tr>
-              <td class="foyer">Noir / Sombre</td>
-              <td>15 m</td>
-              <td>Géométriques simples</td>
-            </tr>
-            <tr>
-              <td class="foyer">Brûlant / Ardent</td>
-              <td>35 m</td>
-              <td>Complexes simples</td>
-            </tr>
-            <tr>
-              <td class="foyer">Solaire / Argent</td>
-              <td>55 m</td>
-              <td>Complexes avancées</td>
-            </tr>
-            <tr>
-              <td class="foyer">Gris / Blanc</td>
-              <td>75 m et +</td>
-              <td>Formes libres</td>
-            </tr>
-            <tr>
-              <td class="foyer">Origine</td>
-              <td>Sans limite connue</td>
-              <td>Sans limite connue</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <div class="callout">
-        <div class="sec-head">
-          <h2 class="sec-title">Prêt à écrire ton personnage ?</h2>
-        </div>
-        <p class="body-text" style="margin-bottom: 18px">
-          Une fois tes deux piliers en tête — corps et Anima — la candidature se
-          remplit vite. Elle sert de point de départ à la fiche complète et à
-          ton entrée dans le RP.
-        </p>
-        <a
-          href="rejoindre.html"
-          class="hub-card"
-          style="display: inline-block; padding: 14px 26px; border-left: none"
-        >
-          <span class="hub-go" style="margin-top: 0; color: var(--glow)"
-            >Déposer ma candidature →</span
-          >
-        </a>
-      </div>
-
-      <footer class="sitefoot">
-        Decadence — codex de référence, sujet à ajustement en jeu.
-        <div class="foot-links">
-          <a href="index.html">Le Codex</a>·
-          <a href="evolution-des-persos.html">Évolution</a>·
-          <a href="systeme-de-pouvoir.html">Pouvoir</a>·
-          <a href="fiches.html">Fiches</a>·
-          <a href="rejoindre.html">Rejoindre</a>
-        </div>
-      </footer>
+  <header class="masthead" style="position:relative; overflow:hidden;">
+    <div class="ember-field" aria-hidden="true"></div>
+    <div style="position:relative; z-index:1;">
+      <div class="eyebrow">RP WhatsApp — Codex de jeu</div>
+      <h1 class="title">Decadence</h1>
+      <div class="subtitle">Un monde où la chair s'use et l'Anima s'affûte</div>
     </div>
-    <!-- À la fin du <body> -->
-    <script type="text/babel" src="decadence-license-card.jsx"></script>
-    <script src="assets/site.js"></script>
-  </body>
+  </header>
+
+  <p class="body-text" style="font-family:'Cormorant Garamond', serif; font-size:20px; border-left:2px solid var(--ember); padding-left:20px; margin:10px 0 50px;">
+    Ce codex résume comment <b style="color:var(--ember-bright); font-weight:600;">Decadence</b> fonctionne :
+    ce que le corps encaisse, ce que l'Anima permet, et comment les deux se rencontrent pour donner
+    naissance aux techniques d'un personnage. Il ne remplace pas les documents détaillés — il en est la carte.
+  </p>
+
+  <!-- ============ COMMENT LE MONDE FONCTIONNE ============ -->
+  <section class="block">
+    <div class="sec-head">
+      <span class="sec-num">I.</span>
+      <h2 class="sec-title">Deux forces, un personnage</h2>
+    </div>
+    <p class="body-text">
+      Tout personnage de Decadence se construit autour de deux axes indépendants, qui se répondent
+      sans jamais se confondre :
+    </p>
+    <ul style="padding-left:20px; color:var(--bone); font-size:15.5px;">
+      <li style="margin-bottom:10px;"><b style="color:var(--glow);">Le corps</b> — ce qu'il endure, sa force brute, sa vitesse, sa précision. Réglé par les <b style="color:var(--ember-bright);">Points de Compétence</b>, indépendamment de toute magie.</li>
+      <li style="margin-bottom:10px;"><b style="color:var(--glow);">L'Anima</b> — l'énergie propre au personnage, sa nature (Profonde ou Libre), et la maîtrise qu'il en a via son <b style="color:var(--violet-bright);">Foyer</b>.</li>
+    </ul>
+    <div class="note">
+      <b>Pourquoi séparer les deux ?</b> Un personnage à l'Anima faible mais au corps aguerri reste dangereux
+      au corps à corps ; à l'inverse, un Foyer avancé sans entraînement physique aura une portée immense
+      mais peu de résistance directe. Aucun des deux axes ne domine l'autre par défaut.
+    </div>
+  </section>
+
+  <div class="divider">◆ ◆ ◆</div>
+
+  <!-- ============ HUB VERS LES DEUX DOCUMENTS ============ -->
+  <section class="block">
+    <div class="sec-head">
+      <span class="sec-num">II.</span>
+      <h2 class="sec-title">Les deux piliers</h2>
+    </div>
+    <p class="body-text">Chaque pilier a son propre document de référence, détaillé palier par palier.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card" href="evolution-des-persos.html">
+        <span class="hub-num">Pilier I</span>
+        <h3>Évolution des Persos</h3>
+        <p>Force, Vitesse, Agilité, Endurance — ce que le corps peut endurer, indépendamment de l'Anima.</p>
+        <span class="hub-go">Consulter les paliers →</span>
+      </a>
+      <a class="hub-card" href="systeme-de-pouvoir.html">
+        <span class="hub-num">Pilier II</span>
+        <h3>Système de Pouvoir</h3>
+        <p>Anima Profonde et Libre, les 5 Configurations, le Foyer, et la Manifestation ultime.</p>
+        <span class="hub-go">Consulter le système →</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider">◆ ◆ ◆</div>
+
+  <!-- ============ LE FOYER EN UN COUP D'OEIL ============ -->
+  <section class="block">
+    <div class="sec-head">
+      <span class="sec-num">III.</span>
+      <h2 class="sec-title">Le Foyer, en un coup d'œil</h2>
+    </div>
+    <p class="body-text">
+      Le Foyer est le stade d'éveil de l'Anima. Il fait progresser en bloc la portée de Résonance,
+      la taille imprégnable et la finesse du Sculptage — pas besoin d'acheter ces trois compétences séparément.
+    </p>
+
+    <table class="grid">
+      <caption>Résumé — voir le détail complet dans Système de Pouvoir</caption>
+      <thead><tr><th>Foyer</th><th>Portée (Résonance)</th><th>Formes (Sculptage)</th></tr></thead>
+      <tbody>
+        <tr><td class="foyer">Latent</td><td>5 m</td><td>Aléatoire, incontrôlée</td></tr>
+        <tr><td class="foyer">Noir / Sombre</td><td>15 m</td><td>Géométriques simples</td></tr>
+        <tr><td class="foyer">Brûlant / Ardent</td><td>35 m</td><td>Complexes simples</td></tr>
+        <tr><td class="foyer">Solaire / Argent</td><td>55 m</td><td>Complexes avancées</td></tr>
+        <tr><td class="foyer">Gris / Blanc</td><td>75 m et +</td><td>Formes libres</td></tr>
+        <tr><td class="foyer">Origine</td><td>Sans limite connue</td><td>Sans limite connue</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="callout">
+    <div class="sec-head">
+      <h2 class="sec-title">Prêt à écrire ton personnage ?</h2>
+    </div>
+    <p class="body-text" style="margin-bottom:18px;">
+      Une fois tes deux piliers en tête — corps et Anima — la candidature se remplit vite.
+      Elle sert de point de départ à la fiche complète et à ton entrée dans le RP.
+    </p>
+    <a href="rejoindre.html" class="hub-card" style="display:inline-block; padding:14px 26px; border-left:none;">
+      <span class="hub-go" style="margin-top:0; color:var(--glow);">Déposer ma candidature →</span>
+    </a>
+  </div>
+
+  <footer class="sitefoot">
+    Decadence — codex de référence, sujet à ajustement en jeu.
+    <div class="foot-links">
+      <a href="index.html">Le Codex</a>·
+      <a href="evolution-des-persos.html">Évolution</a>·
+      <a href="systeme-de-pouvoir.html">Pouvoir</a>·
+      <a href="rejoindre.html">Rejoindre</a>
+    </div>
+  </footer>
+
+</div>
+<!-- À la fin du <body> -->
+<script type="text/babel" src="decadence-license-card.jsx"></script>
+<script src="assets/site.js"></script>
+</body>
 </html>
