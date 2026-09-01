@@ -16,27 +16,67 @@
   "use strict";
 
   // ── Constantes ──────────────────────────────────────────────
-  const ADMINS = ["KIRITO", "NOVA", "GREY", "ITACHI"];
+  const ADMINS = ["KIRITO", "ITACHI"];
 
   const FOYER_INITIALS = {
-    "Latent": "L", "Noir": "N", "Sombre": "S", "Brûlant": "B", "Ardent": "Ar",
-    "Solaire": "So", "Argent": "Ag", "Gris": "G", "Blanc": "Bl", "Origine": "O",
+    Latent: "L",
+    Noir: "N",
+    Sombre: "S",
+    Brûlant: "B",
+    Ardent: "Ar",
+    Solaire: "So",
+    Argent: "Ag",
+    Gris: "G",
+    Blanc: "Bl",
+    Origine: "O",
   };
   const FOYERS = Object.keys(FOYER_INITIALS);
 
   const ORGS = ["CLM", "CO", "Militaire", "Civil", "Sans affiliation"];
   const RANGS = ["Admis", "Bronze", "Argent", "Or", "Or Noir", "Légende"];
-  const RANG_INITIALS = { "Admis": "AD", "Bronze": "BR", "Argent": "AR", "Or": "OR", "Or Noir": "ON", "Légende": "LG" };
-  const CONFIGS = ["Pur Profond", "Profond dominant", "Équilibré", "Libre dominant", "Pur Libre"];
+  const RANG_INITIALS = {
+    Admis: "AD",
+    Bronze: "BR",
+    Argent: "AR",
+    Or: "OR",
+    "Or Noir": "ON",
+    Légende: "LG",
+  };
+  const CONFIGS = [
+    "Pur Profond",
+    "Profond dominant",
+    "Équilibré",
+    "Libre dominant",
+    "Pur Libre",
+  ];
 
   const DEFAULT_FORM = {
-    nom: "", pseudo: "", sexe: "M", niveau: 1, classe: "", titre: "Novice",
-    foyer: "Noir", configuration: "Équilibré", organisation: "CLM", rang: "Admis",
-    force: 10, vitesseApt: 10, agilite: 10, endurance: 10, controle: 10,
-    vie: 120, ra: 25, vit: 6,
-    jetons: 500, fragments: 0, xp: 0, xpSeuil: 100,
+    nom: "",
+    pseudo: "",
+    sexe: "M",
+    niveau: 1,
+    titre: "Novice",
+    foyer: "Noir",
+    configuration: "Équilibré",
+    organisation: "Sans affiliation",
+    rang: "Admis",
+    force: 10,
+    vitesseApt: 10,
+    agilite: 10,
+    endurance: 10,
+    controle: 10,
+    vie: 120,
+    ra: 25,
+    vit: 6,
+    jetons: 500,
+    fragments: 0,
+    xp: 0,
+    xpSeuil: 100,
     techniques: [],
-    arme: "", accessoire: "", imageUrl: "", couleurAnima: "#8800ff",
+    arme: "",
+    accessoire: "",
+    imageUrl: "",
+    couleurAnima: "#8800ff",
   };
 
   // ── Icônes SVG (aucun emoji / caractère Unicode décoratif) ───
@@ -59,7 +99,7 @@
   let adminName = "";
   let search = "";
   let editTarget = null; // fiche en cours d'édition (null = création)
-  let editSkills = [];   // brouillon de compétences pendant l'édition
+  let editSkills = []; // brouillon de compétences pendant l'édition
 
   const grid = document.getElementById("fiches-grid");
   const adminZone = document.getElementById("admin-zone");
@@ -79,12 +119,47 @@
   }
 
   function normalizeSkills(techniques) {
-    if (Array.isArray(techniques)) return techniques.filter(t => t && t.nom);
+    if (Array.isArray(techniques)) return techniques.filter((t) => t && t.nom);
     if (typeof techniques === "string") {
-      return techniques.split("\n").map(t => t.trim()).filter(Boolean)
-        .map(nom => ({ nom, recharge: "—", cooldown: "—" }));
+      return techniques
+        .split("\n")
+        .map((t) => t.trim())
+        .filter(Boolean)
+        .map((nom) => ({ nom, recharge: "—", cooldown: "—" }));
     }
     return [];
+  }
+
+  // Convertit un fichier image choisi en data URL, redimensionnée pour
+  // rester légère (le stockage KV n'aime pas les gros blobs en base64).
+  function readImageAsDataURL(file, maxDim = 640, quality = 0.82) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error);
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round(height * (maxDim / width));
+              width = maxDim;
+            } else {
+              width = Math.round(width * (maxDim / height));
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   function chipCode(p) {
@@ -97,7 +172,12 @@
   function inscriptionDate(p) {
     const t = parseInt(p.id, 10);
     const d = isNaN(t) ? new Date() : new Date(t);
-    return d.toLocaleDateString("fr-FR", { weekday: "short", day: "2-digit", month: "long", year: "numeric" });
+    return d.toLocaleDateString("fr-FR", {
+      weekday: "short",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
   }
 
   // Code-barres purement décoratif : géométrie seule, la couleur
@@ -157,7 +237,9 @@
     try {
       const res = await fetch("/api/personnages");
       if (res.ok) personnages = await res.json();
-    } catch (_) { /* hors ligne / API indisponible : registre vide */ }
+    } catch (_) {
+      /* hors ligne / API indisponible : registre vide */
+    }
     loading = false;
     render();
   }
@@ -171,7 +253,9 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(list),
       });
-    } catch (_) { /* la mise à jour locale reste visible même si l'écriture échoue */ }
+    } catch (_) {
+      /* la mise à jour locale reste visible même si l'écriture échoue */
+    }
   }
 
   // ── Rendu : barre admin ─────────────────────────────────────
@@ -182,7 +266,10 @@
         <button class="f-btn f-btn-primary" id="btn-new">+ NOUVELLE LICENCE</button>
         <button class="f-btn" id="btn-logout" aria-label="Se déconnecter">${ICONS.close}</button>`;
       document.getElementById("btn-new").onclick = () => openAdminForm(null);
-      document.getElementById("btn-logout").onclick = () => { adminName = ""; render(); };
+      document.getElementById("btn-logout").onclick = () => {
+        adminName = "";
+        render();
+      };
     } else {
       adminZone.innerHTML = `
         <input type="text" id="admin-input" class="f-input" placeholder="Nom admin..." style="width:130px">
@@ -194,11 +281,14 @@
           adminName = input.value.trim().toUpperCase();
           render();
         } else {
-          document.getElementById("admin-error").textContent = "Accès refusé. Nom non reconnu.";
+          document.getElementById("admin-error").textContent =
+            "Accès refusé. Nom non reconnu.";
         }
       };
       document.getElementById("btn-login").onclick = doLogin;
-      input.addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") doLogin();
+      });
     }
   }
 
@@ -208,9 +298,11 @@
     return `
       <div class="p-card" data-id="${esc(p.id)}" data-foyer="${esc(p.foyer)}" style="--anima:${esc(anima)}" tabindex="0">
         <div class="p-card-img">
-          ${p.imageUrl
-            ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.nom)}" loading="lazy">`
-            : `<div class="ph">${ICONS.portrait}</div>`}
+          ${
+            p.imageUrl
+              ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.nom)}" loading="lazy">`
+              : `<div class="ph">${ICONS.portrait}</div>`
+          }
           <div class="p-card-badge right">${esc(RANG_INITIALS[p.rang] || (p.rang || "").toUpperCase())}</div>
           <div class="p-card-badge left">${esc(p.organisation || "")}</div>
           <div class="p-card-fade"></div>
@@ -231,12 +323,13 @@
 
   function renderGrid() {
     const q = search.toLowerCase();
-    const filtered = personnages.filter(p =>
-      (p.nom || "").toLowerCase().includes(q) ||
-      (p.pseudo || "").toLowerCase().includes(q) ||
-      (p.classe || "").toLowerCase().includes(q) ||
-      (p.organisation || "").toLowerCase().includes(q) ||
-      (p.foyer || "").toLowerCase().includes(q)
+    const filtered = personnages.filter(
+      (p) =>
+        (p.nom || "").toLowerCase().includes(q) ||
+        (p.pseudo || "").toLowerCase().includes(q) ||
+        (p.classe || "").toLowerCase().includes(q) ||
+        (p.organisation || "").toLowerCase().includes(q) ||
+        (p.foyer || "").toLowerCase().includes(q),
     );
 
     if (filtered.length === 0) {
@@ -247,14 +340,20 @@
       }</div>`;
     } else {
       grid.innerHTML = filtered.map(cardHTML).join("");
-      grid.querySelectorAll(".p-card").forEach(el => {
+      grid.querySelectorAll(".p-card").forEach((el) => {
         const open = () => {
-          const p = personnages.find(x => x.id === el.dataset.id);
+          const p = personnages.find((x) => x.id === el.dataset.id);
           if (!p) return;
-          if (isAdmin()) openAdminForm(p); else openDetailModal(p);
+          if (isAdmin()) openAdminForm(p);
+          else openDetailModal(p);
         };
         el.addEventListener("click", open);
-        el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            open();
+          }
+        });
       });
     }
 
@@ -271,7 +370,12 @@
     const anima = p.couleurAnima || "#8800ff";
     const skills = normalizeSkills(p.techniques).slice(0, 4);
     while (skills.length < 4) skills.push(null);
-    const aptTotal = (p.force || 0) + (p.vitesseApt || 0) + (p.agilite || 0) + (p.endurance || 0) + (p.controle || 0);
+    const aptTotal =
+      (p.force || 0) +
+      (p.vitesseApt || 0) +
+      (p.agilite || 0) +
+      (p.endurance || 0) +
+      (p.controle || 0);
 
     modalRoot.innerHTML = `
       <div class="f-overlay" id="detail-overlay">
@@ -348,7 +452,7 @@
           <div class="license-sec">
             <div class="license-sec-title">Compétences</div>
             <div class="skills-list">
-              ${skills.map(s => skillRowHTML(s || { nom: "", recharge: "", cooldown: "" }, !s)).join("")}
+              ${skills.map((s) => skillRowHTML(s || { nom: "", recharge: "", cooldown: "" }, !s)).join("")}
             </div>
           </div>
 
@@ -378,16 +482,22 @@
 
     const overlay = document.getElementById("detail-overlay");
     overlay.addEventListener("click", closeModal);
-    document.getElementById("detail-close").addEventListener("click", closeModal);
+    document
+      .getElementById("detail-close")
+      .addEventListener("click", closeModal);
   }
 
-  function closeModal() { modalRoot.innerHTML = ""; }
+  function closeModal() {
+    modalRoot.innerHTML = "";
+  }
 
   // ── Rendu : formulaire admin ─────────────────────────────────
   function openAdminForm(initial) {
     editTarget = initial;
     const form = Object.assign({}, DEFAULT_FORM, initial || {});
-    editSkills = normalizeSkills(form.techniques).map(s => Object.assign({ nom: "", recharge: "", cooldown: "" }, s));
+    editSkills = normalizeSkills(form.techniques).map((s) =>
+      Object.assign({ nom: "", recharge: "", cooldown: "" }, s),
+    );
 
     modalRoot.innerHTML = `
       <div class="f-overlay form-overlay" id="form-overlay">
@@ -399,11 +509,26 @@
           <div class="f-field"><label>Pseudo</label><input id="f-pseudo" value="${esc(form.pseudo)}"></div>
           <div class="f-field"><label>Classe / rôle</label><input id="f-classe" value="${esc(form.classe)}"></div>
           <div class="f-field"><label>Titre</label><input id="f-titre" value="${esc(form.titre)}"></div>
-          <div class="f-field"><label>URL de l'image</label><input id="f-imageUrl" value="${esc(form.imageUrl)}"></div>
+          
+          <div class="f-field">
+            <label>Portrait</label>
+            <div class="f-image-picker">
+              <div class="f-image-preview" id="f-image-preview">${form.imageUrl ? `<img src="${form.imageUrl}" alt="">` : `<span>${ICONS.portrait}</span>`}</div>
+              <div class="f-image-actions">
+                <button type="button" class="f-btn" id="f-image-pick-btn">Choisir une photo</button>
+                <button type="button" class="f-btn" id="f-image-clear-btn" style="${form.imageUrl ? "" : "display:none"}">Retirer</button>
+              </div>
+              <input type="file" id="f-imageFile" accept="image/*" style="display:none">
+              <input type="hidden" id="f-imageUrl" value="${esc(form.imageUrl)}">
+            </div>
+          </div>
+
+
+
           <div class="f-row2">
             <div class="f-field"><label>Sexe</label>
               <select id="f-sexe">
-                ${["M", "F", "Autre"].map(v => `<option value="${v}" ${form.sexe === v ? "selected" : ""}>${v}</option>`).join("")}
+                ${["M", "F", "Autre"].map((v) => `<option value="${v}" ${form.sexe === v ? "selected" : ""}>${v}</option>`).join("")}
               </select>
             </div>
             <div class="f-field"><label>Niveau</label><input type="number" id="f-niveau" value="${esc(form.niveau)}"></div>
@@ -412,18 +537,18 @@
           <div class="f-group-title">Foyer & Configuration</div>
           <div class="f-row2">
             <div class="f-field"><label>Foyer</label>
-              <select id="f-foyer">${FOYERS.map(f => `<option ${form.foyer === f ? "selected" : ""}>${f}</option>`).join("")}</select>
+              <select id="f-foyer">${FOYERS.map((f) => `<option ${form.foyer === f ? "selected" : ""}>${f}</option>`).join("")}</select>
             </div>
             <div class="f-field"><label>Configuration</label>
-              <select id="f-configuration">${CONFIGS.map(c => `<option ${form.configuration === c ? "selected" : ""}>${c}</option>`).join("")}</select>
+              <select id="f-configuration">${CONFIGS.map((c) => `<option ${form.configuration === c ? "selected" : ""}>${c}</option>`).join("")}</select>
             </div>
           </div>
           <div class="f-row2">
             <div class="f-field"><label>Organisation</label>
-              <select id="f-organisation">${ORGS.map(o => `<option ${form.organisation === o ? "selected" : ""}>${o}</option>`).join("")}</select>
+              <select id="f-organisation">${ORGS.map((o) => `<option ${form.organisation === o ? "selected" : ""}>${o}</option>`).join("")}</select>
             </div>
             <div class="f-field"><label>Rang</label>
-              <select id="f-rang">${RANGS.map(r => `<option ${form.rang === r ? "selected" : ""}>${r}</option>`).join("")}</select>
+              <select id="f-rang">${RANGS.map((r) => `<option ${form.rang === r ? "selected" : ""}>${r}</option>`).join("")}</select>
             </div>
           </div>
 
@@ -478,7 +603,42 @@
 
     renderSkillsEditor();
 
-    document.getElementById("form-overlay").addEventListener("click", closeModal);
+    const fileInput = document.getElementById("f-imageFile");
+    const hiddenUrl = document.getElementById("f-imageUrl");
+    const preview = document.getElementById("f-image-preview");
+    const pickBtn = document.getElementById("f-image-pick-btn");
+    const clearBtn = document.getElementById("f-image-clear-btn");
+
+    pickBtn.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      pickBtn.disabled = true;
+      pickBtn.textContent = "Traitement...";
+      try {
+        const dataUrl = await readImageAsDataURL(file);
+        hiddenUrl.value = dataUrl;
+        preview.innerHTML = `<img src="${dataUrl}" alt="">`;
+        clearBtn.style.display = "";
+      } catch (_) {
+        alert("Impossible de lire cette image.");
+      } finally {
+        pickBtn.disabled = false;
+        pickBtn.textContent = "Choisir une photo";
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      hiddenUrl.value = "";
+      preview.innerHTML = `<span>${ICONS.portrait}</span>`;
+      fileInput.value = "";
+      clearBtn.style.display = "none";
+    });
+
+    document
+      .getElementById("form-overlay")
+      .addEventListener("click", closeModal);
     document.getElementById("btn-cancel").addEventListener("click", closeModal);
     document.getElementById("btn-add-skill").addEventListener("click", () => {
       if (editSkills.length >= 6) return;
@@ -487,29 +647,56 @@
     });
     const colorPicker = document.getElementById("f-couleurAnima-picker");
     const colorText = document.getElementById("f-couleurAnima");
-    colorPicker.addEventListener("input", () => { colorText.value = colorPicker.value; });
-    colorText.addEventListener("input", () => { if (/^#[0-9a-fA-F]{6}$/.test(colorText.value)) colorPicker.value = colorText.value; });
+    colorPicker.addEventListener("input", () => {
+      colorText.value = colorPicker.value;
+    });
+    colorText.addEventListener("input", () => {
+      if (/^#[0-9a-fA-F]{6}$/.test(colorText.value))
+        colorPicker.value = colorText.value;
+    });
 
-    document.getElementById("btn-save").addEventListener("click", handleFormSave);
-    if (initial) document.getElementById("btn-delete").addEventListener("click", () => handleDelete(initial.id));
+    document
+      .getElementById("btn-save")
+      .addEventListener("click", handleFormSave);
+    if (initial)
+      document
+        .getElementById("btn-delete")
+        .addEventListener("click", () => handleDelete(initial.id));
   }
 
   function renderSkillsEditor() {
     const wrap = document.getElementById("skills-editor");
-    document.getElementById("skills-title").textContent = `Compétences (${editSkills.length}/6)`;
-    wrap.innerHTML = editSkills.map((s, i) => `
+    document.getElementById("skills-title").textContent =
+      `Compétences (${editSkills.length}/6)`;
+    wrap.innerHTML = editSkills
+      .map(
+        (s, i) => `
       <div class="skill-edit-row" data-i="${i}">
         <input placeholder="Nom de la compétence" class="sk-nom" value="${esc(s.nom)}">
         <input placeholder="Récup. (s)" class="sk-recharge" value="${esc(s.recharge)}">
         <input placeholder="Cooldown (s)" class="sk-cooldown" value="${esc(s.cooldown)}">
         <button class="sk-remove" aria-label="Retirer la compétence">${ICONS.close}</button>
-      </div>`).join("");
+      </div>`,
+      )
+      .join("");
 
-    wrap.querySelectorAll(".skill-edit-row").forEach(row => {
+    wrap.querySelectorAll(".skill-edit-row").forEach((row) => {
       const i = Number(row.dataset.i);
-      row.querySelector(".sk-nom").addEventListener("input", e => editSkills[i].nom = e.target.value);
-      row.querySelector(".sk-recharge").addEventListener("input", e => editSkills[i].recharge = e.target.value);
-      row.querySelector(".sk-cooldown").addEventListener("input", e => editSkills[i].cooldown = e.target.value);
+      row
+        .querySelector(".sk-nom")
+        .addEventListener("input", (e) => (editSkills[i].nom = e.target.value));
+      row
+        .querySelector(".sk-recharge")
+        .addEventListener(
+          "input",
+          (e) => (editSkills[i].recharge = e.target.value),
+        );
+      row
+        .querySelector(".sk-cooldown")
+        .addEventListener(
+          "input",
+          (e) => (editSkills[i].cooldown = e.target.value),
+        );
       row.querySelector(".sk-remove").addEventListener("click", () => {
         editSkills.splice(i, 1);
         renderSkillsEditor();
@@ -519,8 +706,12 @@
     document.getElementById("btn-add-skill").disabled = editSkills.length >= 6;
   }
 
-  function val(id) { return document.getElementById(id).value; }
-  function num(id) { return Number(document.getElementById(id).value) || 0; }
+  function val(id) {
+    return document.getElementById(id).value;
+  }
+  function num(id) {
+    return Number(document.getElementById(id).value) || 0;
+  }
 
   function handleFormSave() {
     const form = {
@@ -535,21 +726,35 @@
       configuration: val("f-configuration"),
       organisation: val("f-organisation"),
       rang: val("f-rang"),
-      force: num("f-force"), vitesseApt: num("f-vitesseApt"), agilite: num("f-agilite"),
-      endurance: num("f-endurance"), controle: num("f-controle"),
-      vie: num("f-vie"), ra: num("f-ra"), vit: num("f-vit"),
+      force: num("f-force"),
+      vitesseApt: num("f-vitesseApt"),
+      agilite: num("f-agilite"),
+      endurance: num("f-endurance"),
+      controle: num("f-controle"),
+      vie: num("f-vie"),
+      ra: num("f-ra"),
+      vit: num("f-vit"),
       couleurAnima: val("f-couleurAnima").trim() || "#8800ff",
-      jetons: num("f-jetons"), fragments: num("f-fragments"), xp: num("f-xp"), xpSeuil: num("f-xpSeuil"),
-      techniques: editSkills.filter(s => s.nom && s.nom.trim()),
+      jetons: num("f-jetons"),
+      fragments: num("f-fragments"),
+      xp: num("f-xp"),
+      xpSeuil: num("f-xpSeuil"),
+      techniques: editSkills.filter((s) => s.nom && s.nom.trim()),
       arme: val("f-arme").trim(),
       accessoire: val("f-accessoire").trim(),
     };
 
     let updated;
     if (editTarget) {
-      updated = personnages.map(p => p.id === editTarget.id ? Object.assign({}, form, { id: editTarget.id }) : p);
+      updated = personnages.map((p) =>
+        p.id === editTarget.id
+          ? Object.assign({}, form, { id: editTarget.id })
+          : p,
+      );
     } else {
-      updated = personnages.concat([Object.assign({}, form, { id: Date.now().toString() })]);
+      updated = personnages.concat([
+        Object.assign({}, form, { id: Date.now().toString() }),
+      ]);
     }
     savePersonnages(updated);
     editTarget = null;
@@ -558,7 +763,7 @@
 
   function handleDelete(id) {
     if (!window.confirm("Supprimer cette licence ?")) return;
-    savePersonnages(personnages.filter(p => p.id !== id));
+    savePersonnages(personnages.filter((p) => p.id !== id));
     editTarget = null;
     closeModal();
   }
@@ -574,7 +779,10 @@
     renderGrid();
   }
 
-  searchInput.addEventListener("input", e => { search = e.target.value; renderGrid(); });
+  searchInput.addEventListener("input", (e) => {
+    search = e.target.value;
+    renderGrid();
+  });
 
   loadPersonnages();
 })();
